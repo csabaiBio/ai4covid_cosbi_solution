@@ -1,0 +1,30 @@
+seed: 0
+exp_name: clinical
+
+device:
+  cuda_device: cuda:2
+  gpu_num_workers: 16
+
+data:
+  data_file: ./data/processed/clinical_data.csv #clinical_data_test.xlsx
+  fold_dir: ./data/processed/folds
+  model_dir: ./models
+  report_dir: ./reports
+  y_label: Prognosis
+  classes:
+    - MILD
+    - SEVERE
+  batch_size: 16
+
+model:
+  model_name: mlp_1
+  freeze: False
+
+trainer:
+  optimizer:
+    lr: 0.001
+  scheduler:
+    mode: min
+    patience: 5
+  early_stopping: 25
+  max_epochs: 300

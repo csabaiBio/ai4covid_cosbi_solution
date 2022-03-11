@@ -1,0 +1,39 @@
+seed: 0
+exp_name: multimodal
+
+mode_cfg:
+  mode_1: ./configs/img.yaml
+  mode_2: ./configs/clinical.yaml
+
+device:
+  cuda_device: cuda:2
+  gpu_num_workers: 16
+
+data:
+  fold_dir: ./data/processed/folds
+  model_dir: ./models
+  report_dir: ./reports
+  classes:
+    - MILD
+    - SEVERE
+  batch_size: 16
+
+model:
+  model_names:
+    mode_1:
+      model_1: densenet121
+      model_2: vgg11_bn
+    mode_2:
+      model_1: mlp_1
+
+trainer:
+  optimizer:
+    lr: 0.001
+  scheduler:
+    mode: min
+    patience: 5
+  early_stopping: 25
+  max_epochs: 300
+
+linear:
+  model_dir: ./models/linear
