@@ -8,8 +8,9 @@ __init__
 zip
 */*zip
 */*/*zip
-data/
-data/processed
-data/processed_old
-data/interim
+#data/
+#data/processed
+#data/processed_old
+#data/interim
 data/AIforCOVID
+bsnet-20220219T115606Z-001.zip
