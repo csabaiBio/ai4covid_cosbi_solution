@@ -57,10 +57,12 @@ Python 3.6.9 (default, Dec  8 2021, 21:08:43)
 Unable to init server: Could not connect: Connection refused
 Unable to init server: Could not connect: Connection refused
 
-(train_img.py:12611): Gdk-CRITICAL **: 18:38:33.352: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
+(train_img.py:12611): Gdk-CRITICAL : 18:38:33.352: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
 Using Seed :  0
 cuda:0
-**************************************************vgg11_bn**************************************************
+
+vgg11_bn
+
 Epoch 0/299
 ----------
 Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 892/892 [01:14<00:00, 11.98img/s, loss (batch)=0.689]
@@ -79,7 +81,8 @@ Best val Acc: 0.585988
 {'SEVERE': 0.6842105263157895, 'MILD': 0.5925925925925926, 'all': 0.6396396396396397}
 
 
-**************************************************densenet121**************************************************
+densenet121
+
 Epoch 0/299
 ----------
 Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 892/892 [01:11<00:00, 12.40img/s, loss (batch)=0.859]
