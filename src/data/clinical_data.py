@@ -3,15 +3,21 @@ import os
 import pickle
 from sklearn.preprocessing import MinMaxScaler
 
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
 import src.utils.util_general as util_general
 
-data_dir = "../data/AIforCOVID"
-preprocessing_dir = os.path.join("./data/interim/preprocessing", "clinical")
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+
+data_dir = HOME+"data/AIforCOVID"
+preprocessing_dir = os.path.join( HOME, "data/interim/preprocessing", "clinical")
 util_general.create_dir(preprocessing_dir)
-save_dir = "./data/processed"
+save_dir = HOME+"data/processed"
 y_label = "Prognosis"
 
-clinical_data_files = [os.path.join(data_dir, "trainClinData.xls")]
+clinical_data_files = [os.path.join(HOME, data_dir, "trainClinData.xls")]
 drop_cols = ["Row_number", "Death"]
 
 # load clinical data
@@ -24,10 +30,10 @@ clinical_data = clinical_data.drop(drop_cols, axis=1)
 
 # Fill NA
 cat_cols = ["Hospital"]
-discrete_cols = ['Age', 'Sex', 'Positivity at admission', 'Temp_C', 'DaysFever', 'Cough', 'DifficultyInBreathing', 'WBC',
-            'RBC', 'Fibrinogen', 'Glucose', 'LDH', 'D-dimer', 'Ox_percentage', 'PaO2', 'SaO2', 'PaCO2', 'pH',
+discrete_cols = ['Age', 'Sex', 'PositivityAtAdmission', 'Temp_C', 'DaysFever', 'Cough', 'DifficultyInBreathing', 'WBC',
+            'RBC', 'Fibrinogen', 'Glucose', 'LDH', 'D_dimer', 'Ox_percentage', 'PaO2', 'SaO2', 'PaCO2', 'pH',
             'CardiovascularDisease', 'IschemicHeartDisease', 'AtrialFibrillation', 'HeartFailure', 'Ictus',
-            'HighBloodPressure', 'Diabetes', 'Dementia', 'BPCO', 'Cancer', 'Chronic Kidney disease',
+            'HighBloodPressure', 'Diabetes', 'Dementia', 'BPCO', 'Cancer', 'ChronicKidneyDisease',
             'RespiratoryFailure', 'Obesity', "Position"]
 cont_cols = ['CRP', 'PCT', 'INR']
 

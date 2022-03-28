@@ -4,6 +4,13 @@ import os
 from tqdm import tqdm
 import pydicom
 
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
+from src.utils import util_data
+
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
 
 def masked_pred(img, mask, alpha=1):
     """Returns image with GT lung field outlined with red, predicted lung field
@@ -41,12 +48,17 @@ def loadData(img_dirs, im_shape):
             img_name.append(os. path. splitext(item)[0])
 
             # Load DICOM
-            dicom = pydicom.dcmread(os.path.join(img_dir, item))
-            photometric_interpretation = dicom.PhotometricInterpretation
-            img = dicom.pixel_array.astype(float)
+        #    dicom = pydicom.dcmread(os.path.join(img_dir, item))
+        #    photometric_interpretation = dicom.PhotometricInterpretation
+        #    img = dicom.pixel_array.astype(float)
+
+            # MODIFIED LOADER!
+            img, photometric_interpretation = util_data.load_img( os.path.join(img_dir, item) )
+            
             # Photometric Interpretation
             if photometric_interpretation == 'MONOCHROME1':
                 img = np.interp(img, (img.min(), img.max()), (img.max(), img.min()))
+
             # to grayscale
             if img.ndim > 2:
                 img = img.mean(axis=2)

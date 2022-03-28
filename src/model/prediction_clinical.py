@@ -1,5 +1,10 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 sys.path.extend(["./"])
+
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
+
 import torch
 import pandas as pd
 import os
@@ -9,9 +14,12 @@ import src.utils.util_general as util_general
 import src.utils.util_data as util_data
 import src.utils.util_model as util_model
 
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = "./configs/clinical.yaml"
+args.cfg_file = HOME+"configs/clinical.yaml"
 with open(os.path.join(args.cfg_file)) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -39,14 +47,23 @@ prediction_dir = os.path.join(table_dir, "prediction")
 util_general.create_dir(prediction_dir)
 
 # Data Loaders
-fold_data = {step: pd.read_csv(os.path.join(cfg['data']['fold_dir'], '%s.txt' % step), delimiter=" ", index_col=0) for step in ['train', 'val', 'test', 'submission']}
-datasets = {step: util_data.ClinicalDataset(data=fold_data[step], classes=classes, data_file=cfg['data']['data_file'], step="test") for step in ['train', 'val', 'test', 'submission']}
+fold_data = { step: pd.read_csv( os.path.join(cfg['data']['fold_dir'], '%s.txt' % step), 
+                                delimiter=" ", index_col=0 
+                              ) 
+                    for step in ['train', 'val', 'test', 'submission'] }
+datasets = {    step: util_data.ClinicalDataset(
+                    data=fold_data[step], 
+                    classes=classes,
+                    data_file=cfg['data']['data_file'], step="test") 
+             for step in ['train', 'val', 'test', 'submission']}
 data_loaders = {'train': torch.utils.data.DataLoader(datasets['train'], batch_size=cfg['data']['batch_size'], shuffle=True, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
                 'val': torch.utils.data.DataLoader(datasets['val'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
-                'test': torch.utils.data.DataLoader(datasets['test'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker)}
+                'test': torch.utils.data.DataLoader(datasets['test'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
+                'submission': torch.utils.data.DataLoader(datasets['submission'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker)}
 
 # Split
-for step in ['train', 'val', 'test', 'submission']:
+#for step in ['train', 'val', 'test', 'submission']:
+for step in ['submission']:
     prediction_file = os.path.join(prediction_dir, "prediction_%s.xlsx" % step)
     probability_file = os.path.join(prediction_dir, "probability_%s.xlsx" % step)
 

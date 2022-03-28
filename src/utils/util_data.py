@@ -180,6 +180,7 @@ def augmentation(img):
 def loader(img_path, img_dim, mask_path=None, box=None, clahe=False, step="train"):
     # Img
     img, photometric_interpretation = load_img(img_path)
+    #print('IMG_LOADED_SUCCESS')
     min_val, max_val = img.min(), img.max()
     # Pathometric Interpretation
     if photometric_interpretation == 'MONOCHROME1':
@@ -230,6 +231,12 @@ class Dataset(torch.utils.data.Dataset):
         # Box
         if box_file:
             box_data = pd.read_excel(box_file, index_col="img", dtype=list)
+            # https://stackoverflow.com/questions/65254535/xlrd-biffh-xlrderror-excel-xlsx-file-not-supported
+            #df1 = pd.read_excel(
+            #        os.path.join(box_file, "img", "aug_latest.xlsm"),
+            #        engine='openpyxl',
+            #        )
+            # just needed to install previous version of xlrd
             self.boxes = {os.path.basename(row[0]): eval(row[1]["box"]) for row in box_data.iterrows()}
         else:
             self.boxes = None
@@ -245,20 +252,33 @@ class Dataset(torch.utils.data.Dataset):
         # Select sample
         row = self.data.iloc[index]
         img_id = row.name
+        #print(img_id)
+        #print('masks', self.masks)
+        #print('boxes', self.boxes.keys())
         if self.masks:
             mask_path = self.masks[os.path.basename(img_id)]
         else:
             mask_path = None
         # load box
         if self.boxes:
-            box = self.boxes[os.path.basename(img_id)]
+            #print('img_id:', os.path.basename(img_id))
+            box_id = img_id.strip('.png')
+            #box = self.boxes[os.path.basename(img_id)]
+            box = self.boxes[os.path.basename(box_id.strip('.png'))]
+            ## print('box', box)
         else:
             box = None
         # Load data and get label
-        img_path = os.path.join(self.img_dir, "%s.dcm" % str(img_id))
+        ###img_path = os.path.join(self.img_dir, "%s.dcm" % str(img_id)) ## HARDCODED DICOM
+        #print(img_id)
+        img_path = os.path.join(self.img_dir, "%s" % str(img_id))
+        #print('Image path', img_path)
         x = loader(img_path=img_path, img_dim=self.img_dim, mask_path=mask_path, box=box, clahe=self.clahe, step=self.step)
-        y = row.label
-        return x, self.class_to_idx[y], os.path.basename(img_id)
+        try:
+            y = row.label
+            return x, self.class_to_idx[y], os.path.basename(img_id)
+        except:
+            return x, -1, os.path.basename(img_id) # nan is encoded as -1
 
 
 class ClinicalDataset(torch.utils.data.Dataset):
@@ -266,12 +286,15 @@ class ClinicalDataset(torch.utils.data.Dataset):
     def __init__(self, data, classes, data_file, step):
         'Initialization'
         self.step = step
+        #print("HERE", data_file)
         self.clinical_data = pd.read_csv(data_file, index_col=0)
         self.data = data
+        #print(self.data.head())
         self.classes = classes
         self.class_to_idx = {c: i for i, c in enumerate(sorted(classes))}
         self.idx_to_class = {i: c for c, i in self.class_to_idx.items()}
 
+        #print(self.data, self.class_to_idx)
     def __len__(self):
         'Denotes the total number of samples'
         return len(self.data)
@@ -282,9 +305,16 @@ class ClinicalDataset(torch.utils.data.Dataset):
         row = self.data.iloc[index]
         id = row.name
         # Load data and get label
+        #print( 'In clin data', os.path.basename(id), id, row )
+        #print(self.clinical_data.shape)
         x = torch.tensor(self.clinical_data.loc[os.path.basename(id)].astype(float))
+        #x = torch.tensor(self.clinical_data.loc[os.path.basename(id.strip('.png'))].astype(float))
+        #print('x', x)
         y = row.label
-        return x, self.class_to_idx[y], os.path.basename(id)
+        try:
+            return x, self.class_to_idx[y], os.path.basename(id)
+        except:
+            return x, -1, os.path.basename(id) # nan is encoded as -1
 
 
 class MultimodalDataset(torch.utils.data.Dataset):

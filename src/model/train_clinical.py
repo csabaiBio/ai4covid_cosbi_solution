@@ -1,4 +1,8 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
+
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
 sys.path.extend(["./"])
 import os
 import torch
@@ -13,9 +17,12 @@ import src.utils.util_general as util_general
 import src.utils.util_data as util_data
 import src.utils.util_model as util_model
 
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = "./configs/clinical.yaml"
+args.cfg_file = HOME+"configs/clinical.yaml"
 with open(args.cfg_file) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -55,7 +62,12 @@ results = collections.defaultdict(lambda: [])
 
 # Data Loaders
 fold_data = {step: pd.read_csv(os.path.join(cfg['data']['fold_dir'], '%s.txt' % step), delimiter=" ", index_col=0) for step in ['train', 'val', 'test']}
-datasets = {step: util_data.ClinicalDataset(data=fold_data[step], classes=classes, data_file=cfg['data']['data_file'], step=step) for step in ['train', 'val', 'test']}
+datasets = {step: util_data.ClinicalDataset(
+                    data=fold_data[step],
+                    classes=classes,
+                    data_file=cfg['data']['data_file'],
+                    step=step ) 
+                for step in ['train', 'val', 'test']}
 data_loaders = {'train': torch.utils.data.DataLoader(datasets['train'], batch_size=cfg['data']['batch_size'], shuffle=True, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
                 'val': torch.utils.data.DataLoader(datasets['val'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
                 'test': torch.utils.data.DataLoader(datasets['test'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker)}

@@ -1,11 +1,17 @@
-import sys; print('Python %s on %s' % (sys.version, sys.platform))
-sys.path.extend(["./"])
+import sys
+from turtle import home; print('Python %s on %s' % (sys.version, sys.platform))
+#sys.path.extend(["./"])
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+print(sys.path)
 import os
 from tqdm import tqdm
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 import src.utils.util_general as util_general
+
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
 
 # Seed Everything
 seed = 0
@@ -18,15 +24,15 @@ test_size = 0.1
 val_size = 0.1
 
 # Files and Directories
-dest_dir = os.path.join("./data/processed/folds")
-data_dir = "../data/AIforCOVID"
-clinical_data_files = [os.path.join(data_dir, "trainClinData.xls")]
+dest_dir = os.path.join(HOME, "data/processed/folds")
+data_dir = os.path.join(HOME, "data/AIforCOVID")
+clinical_data_files = [os.path.join(HOME, data_dir, "trainClinData.xls")]
 
 # load clinical data
 clinical_data = pd.DataFrame()
 for clinical_data_file in clinical_data_files:
     clinical_data_r = pd.read_excel(clinical_data_file, index_col="ImageFile")
-    clinical_data_r.index = [os.path.join("imgs", x) for x in clinical_data_r.index]
+    clinical_data_r.iclinical_data_filesndex = [os.path.join("imgs", x) for x in clinical_data_r.index]
     clinical_data = pd.concat([clinical_data, clinical_data_r])
 
 # K-Folds CV

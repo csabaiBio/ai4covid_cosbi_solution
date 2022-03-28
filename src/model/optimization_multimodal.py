@@ -1,5 +1,12 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 sys.path.extend(["./"])
+
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+
 from tqdm import tqdm
 import pandas as pd
 import os
@@ -12,7 +19,7 @@ import src.utils.util_general as util_general
 
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = "./configs/multimodal.yaml"
+args.cfg_file = HOME+"configs/multimodal.yaml"
 with open(os.path.join(args.cfg_file)) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 cfg_modes = {}

@@ -1,5 +1,12 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 sys.path.extend(["./"])
+
+import sys
+sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+
+# ADD HOME parent path
+HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+
 from tqdm import tqdm
 import pandas as pd
 import os
@@ -13,7 +20,7 @@ import src.utils.util_general as util_general
 
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = "./configs/multimodal.yaml"
+args.cfg_file = HOME+"configs/multimodal.yaml"
 with open(os.path.join(args.cfg_file)) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 cfg_modes = {}
@@ -90,6 +97,7 @@ for k in k_list:
         class_labels = [1]
         prob_features = ["%s_%i" % (model, i) for model in comb for i in class_labels] + ["%s_%i" % (model_name_mode_2, i) for i in class_labels]
         regressor = LinearRegression()
+        print( ' PROB_FEATURES:', prob_features,'SHAPE:', probabilities["train"][prob_features].shape )
         regressor.fit(probabilities["train"][prob_features], probabilities["train"]["True"])
         # Save model
         with open(os.path.join(model_dir_probs, '%s.pkl' % model_name), 'wb') as handle:
