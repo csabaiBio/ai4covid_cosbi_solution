@@ -1,3 +1,15 @@
 models/
 .idea/
 .DS_Store
+__pycache__
+__init__
+*/__pycache__
+*/__init__
+zip
+*/*zip
+*/*/*zip
+data/
+data/processed
+data/processed_old
+data/interim
+data/AIforCOVID
