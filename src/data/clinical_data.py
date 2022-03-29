@@ -4,17 +4,17 @@ import pickle
 from sklearn.preprocessing import MinMaxScaler
 
 import sys
-sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+filepath = os.path.abspath(__file__)
+HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
+sys.path.append(HOME)
 
 import src.utils.util_general as util_general
-
-# ADD HOME parent path
-HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
 
 data_dir = HOME+"data/AIforCOVID"
 preprocessing_dir = os.path.join( HOME, "data/interim/preprocessing", "clinical")
 util_general.create_dir(preprocessing_dir)
 save_dir = HOME+"data/processed"
+os.makedirs(save_dir)
 y_label = "Prognosis"
 
 clinical_data_files = [os.path.join(HOME, data_dir, "trainClinData.xls")]

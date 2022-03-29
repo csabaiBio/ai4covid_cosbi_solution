@@ -5,25 +5,24 @@ from keras.preprocessing.image import ImageDataGenerator
 from skimage import exposure, transform
 import skimage.measure as measure
 import os
+import sys
 from tqdm import tqdm
 
-import sys
-sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
-
-# ADD HOME parent path
-HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+filepath = os.path.abspath(__file__)
+HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
+sys.path.append(HOME)
 
 import src.utils.util_segmentation as util_segmentation
 
 data_dir = HOME+"data/AIforCOVID"
 ## UNCOMMENT TO RUN
-#img_dirs = [os.path.join(data_dir, "imgs")] #imgs_test 
-img_dirs = [os.path.join(data_dir, "imgs_test")] #imgs_test
+img_dirs = [os.path.join(data_dir, "imgs")] #imgs_test 
+#img_dirs = [os.path.join(data_dir, "imgs_test")] #imgs_test
 
 
 ## UNCOMMENT TO RUN
-#clinical_data_files = [os.path.join(data_dir, "trainClinData.xls")] #testClinData.xls
-clinical_data_files = [os.path.join(data_dir, "testClinData.xls")] #testClinData.xls
+clinical_data_files = [os.path.join(data_dir, "trainClinData.xls")] #testClinData.xls
+#clinical_data_files = [os.path.join(data_dir, "testClinData.xls")] #testClinData.xls
 y_label = "Prognosis"
 
 # Model path

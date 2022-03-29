@@ -1,17 +1,19 @@
 import sys
+import os
 from turtle import home; print('Python %s on %s' % (sys.version, sys.platform))
 #sys.path.extend(["./"])
-sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
-print(sys.path)
+
+filepath = os.path.abspath(__file__)
+HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
+sys.path.append(HOME)
+
+#print(sys.path)
 import os
 from tqdm import tqdm
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 import src.utils.util_general as util_general
-
-# ADD HOME parent path
-HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
 
 # Seed Everything
 seed = 0
@@ -25,6 +27,7 @@ val_size = 0.1
 
 # Files and Directories
 dest_dir = os.path.join(HOME, "data/processed/folds")
+os.makedirs(dest_dir)
 data_dir = os.path.join(HOME, "data/AIforCOVID")
 clinical_data_files = [os.path.join(HOME, data_dir, "trainClinData.xls")]
 
