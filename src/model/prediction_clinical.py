@@ -1,8 +1,10 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 sys.path.extend(["./"])
+import os
 
-import sys
-sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
+filepath = os.path.abspath(__file__)
+HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
+sys.path.append(HOME)
 
 
 import torch
@@ -13,9 +15,6 @@ import yaml
 import src.utils.util_general as util_general
 import src.utils.util_data as util_data
 import src.utils.util_model as util_model
-
-# ADD HOME parent path
-HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
 
 # Configuration file
 args = util_general.get_args()

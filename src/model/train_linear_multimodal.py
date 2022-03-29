@@ -1,15 +1,14 @@
+
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
+import os
 sys.path.extend(["./"])
 
-import sys
-sys.path.append("/home/abiricz/ai4covid_winners/COVIDCXRChallenge")
-
-# ADD HOME parent path
-HOME = '/home/abiricz/ai4covid_winners/COVIDCXRChallenge/'
+filepath = os.path.abspath(__file__)
+HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
+sys.path.append(HOME)
 
 from tqdm import tqdm
 import pandas as pd
-import os
 import collections
 import itertools
 from sklearn.linear_model import LinearRegression
