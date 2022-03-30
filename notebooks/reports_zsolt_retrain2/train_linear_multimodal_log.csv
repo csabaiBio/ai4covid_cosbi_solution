@@ -1,0 +1,17 @@
+bedohazi@gpu1:~/ai4covid_cosbi_solution$ cd ..
+bedohazi@gpu1:~$ . ./pipvenv/bin/activate
+(pipvenv) bedohazi@gpu1:~$ cd ai4covid_cosbi_solution/src/model/
+(pipvenv) bedohazi@gpu1:~/ai4covid_cosbi_solution/src/model$ python3 train_linear_multimodal.py
+Python 3.8.10 (default, Mar 15 2022, 12:22:08)
+[GCC 9.4.0] on linux
+Using Seed :  0
+k=1
+0it [00:00, ?it/s] PROB_FEATURES: ['vgg11_bn_1', 'mlp_1_1'] SHAPE: (892, 2)
+ PROB_FEATURES: ['densenet121_1', 'mlp_1_1'] SHAPE: (892, 2)
+2it [00:00, 106.07it/s]
+k=2
+0it [00:00, ?it/s] PROB_FEATURES: ['vgg11_bn_1', 'densenet121_1', 'mlp_1_1'] SHAPE: (892, 3)
+1it [00:00, 115.97it/s]
+k=3
+0it [00:00, ?it/s]
+(pipvenv) bedohazi@gpu1:~/ai4covid_cosbi_solution/src/model$
