@@ -1,4 +1,4 @@
-# AI4COVID Hackathon TEAM COSBI solution REPRODUCTION/PROOF 
+# AI4COVID Hackathon TEAM COSBI solution REPRODUCTION
 
 ## Running reproduction
 
@@ -14,115 +14,39 @@
 
 `python3 segmentation_create_data.py`
 
-(raise InvalidDicomError("File is missing DICOM File Meta Information "
-pydicom.errors.InvalidDicomError: File is missing DICOM File Meta Information header or the 'DICM' prefix is missing from the header. Use force=True to force reading.)
-
-This MEANS that preprocessing for segmentation is generated from dicom images!! Needed to modify to overcome this issue - seems working afterwards.
-
-
-2022-03-24 23:38:18.410905: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:18.410930: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
-2022-03-24 23:38:20.452776: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:937] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
-2022-03-24 23:38:20.453507: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.453641: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcublas.so.11'; dlerror: libcublas.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.453751: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcublasLt.so.11'; dlerror: libcublasLt.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.455638: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcusolver.so.11'; dlerror: libcusolver.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.455750: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcusparse.so.11'; dlerror: libcusparse.so.11: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.455859: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudnn.so.8'; dlerror: libcudnn.so.8: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/local/lib/
-2022-03-24 23:38:20.455886: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1835] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
-Skipping registering GPU devices...
-2022-03-24 23:38:20.456152: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
-To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
-WARNING:tensorflow:Error in loading the saved optimizer state. As a result, your model is starting with a freshly initialized optimizer.
- 
- /home/abiricz/ai4covid_winners/COVIDCXRChallenge/data/AIforCOVID/imgs
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████| 1103/1103 [12:03<00:00,  1.52it/s]
-Data loaded
-        (1103, 256, 256, 1)
-          0%|                                                                                                            | 0/1103 [00:00<?, ?it/s]2022-03-24 23:50:24.620607: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)
- 66%|████████████████████████████████████████████████████████████████▋                                 | 728/1103 [06:10<03:35,  1.74it/s]100%|████████████████████████████████████████████████████████████████████████████████████████████████▉| 1102/1103 [09:18<00:00,  1.97it/s]
-
-
 ### 4)
 
-`python3 segmentation_create_data.py` again with config img modified for test set
+`python3 segmentation_create_data.py` again with modified paths in configuration files for the submission set
 
 ### 5)
 
 `python3 train_img.py`
 
-
-Python 3.6.9 (default, Dec  8 2021, 21:08:43) 
-[GCC 8.4.0] on linux
-Unable to init server: Could not connect: Connection refused
-Unable to init server: Could not connect: Connection refused
-
-(train_img.py:12611): Gdk-CRITICAL : 18:38:33.352: gdk_cursor_new_for_display: assertion 'GDK_IS_DISPLAY (display)' failed
-Using Seed :  0
-cuda:0
-
-vgg11_bn
-
-Epoch 0/299
-----------
-Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 892/892 [01:14<00:00, 11.98img/s, loss (batch)=0.689]
-train Loss: 0.8126 Acc: 0.4809
-Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 100/100 [00:09<00:00, 10.67img/s, loss (batch)=0.673]
-val Loss: 0.6946 Acc: 0.4800
-Epoch 1/299
-
-...
-
-Early Stopping! Total epochs: 91%
-Training complete in 127m 1s
-Best epoch: 66.000000
-Best val Acc: 0.585988
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:12<00:00,  1.77s/it]
-{'SEVERE': 0.6842105263157895, 'MILD': 0.5925925925925926, 'all': 0.6396396396396397}
-
-
-densenet121
-
-Epoch 0/299
-----------
-Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 892/892 [01:11<00:00, 12.40img/s, loss (batch)=0.859]
-train Loss: 0.7469 Acc: 0.5415
-Epoch 1/300: 100%|█████████████████████████████████████████████████████████████████| 100/100 [00:08<00:00, 11.30img/s, loss (batch)=0.524]
-val Loss: 0.7215 Acc: 0.5700
-Epoch 1/299
-
-...
-
-Early Stopping! Total epochs: 51%
-Training complete in 68m 52s
-Best epoch: 26.000000
-Best val Acc: 0.532012
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:11<00:00,  1.65s/it]
-{'SEVERE': 0.7894736842105263, 'MILD': 0.48148148148148145, 'all': 0.6396396396396397}
-
+vgg11_bn and densenet121
 
 ### 6)
 
 `python3 train_clinical.py`
 
-
 ### 7)
 
-`train_linear_multimodal`
+`train_linear_multimodal.py`
 
 ### 8) Predictions
 
 `python3 prediction_clinical.py`
+
 `python3 prediction_img.py`
+
 `python3 prediction_linear_multimodal.py`
 
-### 9) Predictions on competition test set - need to modify config yaml file, data_path to point to test csv
-
+### 9) Predictions on submission set: need to modify configuration files to point to the submission set
 
 `python3 prediction_clinical.py`
-`python3 prediction_img.py`
-`python3 prediction_linear_multimodal.py`
 
+`python3 prediction_img.py`
+
+`python3 prediction_linear_multimodal.py`
 
 
 ## THEIR DESCRIPTION
