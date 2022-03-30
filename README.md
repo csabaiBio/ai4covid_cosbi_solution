@@ -2,6 +2,9 @@
 
 ## Running reproduction
 
+### 0) Installing necessary packages
+
+
 ### 1) 
 `python3 clinical_data.py` 
 
