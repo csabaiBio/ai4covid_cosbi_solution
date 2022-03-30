@@ -28,6 +28,8 @@ vgg11_bn and densenet121
 
 `python3 train_clinical.py`
 
+mlp_1
+
 ### 7)
 
 `train_linear_multimodal.py`
