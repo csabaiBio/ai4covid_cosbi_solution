@@ -1,11 +1,5 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
 sys.path.extend(["./"])
-import os
-
-filepath = os.path.abspath(__file__)
-HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
-sys.path.append(HOME)
-
 import pandas as pd
 import os
 import collections
@@ -16,7 +10,7 @@ import src.utils.util_general as util_general
 
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = HOME+"configs/multimodal.yaml"
+args.cfg_file = "./configs/multimodal.yaml"
 with open(os.path.join(os.path.join(args.cfg_file))) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 cfg_modes = {}
@@ -46,12 +40,10 @@ prediction_dir = os.path.join(table_dir, "prediction")
 util_general.create_dir(prediction_dir)
 
 # Split
-#for step in ['train', 'val', 'test']:#, 'submission']: ## NEED TO PREPARE SUBMISSION FILE!
-for step in ['submission']: ## NEED TO PREPARE SUBMISSION FILE!
+for step in ['train', 'val', 'test', 'submission']:
     prediction_file = os.path.join(prediction_dir, "prediction_%s.xlsx" % step)
     probability_file = os.path.join(prediction_dir, "probability_%s.xlsx" % step)
 
-    print('Looking for files:', prediction_file, probability_file)
     # Predict Models
     results_discrete = pd.DataFrame()
     results_probs = pd.DataFrame()
@@ -60,7 +52,6 @@ for step in ['submission']: ## NEED TO PREPARE SUBMISSION FILE!
     prediction = pd.DataFrame()
     probability = pd.DataFrame()
     for mode in cfg_modes:
-        print('mode', mode)
         predictions_mode = pd.read_excel(os.path.join(cfg_modes[mode]['data']['report_dir'], cfg_modes[mode]['exp_name'], "tables", "prediction", "prediction_%s.xlsx" % step), index_col=0)
         probabilities_mode = pd.read_excel(os.path.join(cfg_modes[mode]['data']['report_dir'], cfg_modes[mode]['exp_name'], "tables", "prediction", "probability_%s.xlsx" % step), index_col=0)
 
@@ -69,25 +60,20 @@ for step in ['submission']: ## NEED TO PREPARE SUBMISSION FILE!
         # Remove duplicated True
         prediction = prediction.loc[:, ~prediction.columns.duplicated()]
         probability = probability.loc[:, ~probability.columns.duplicated()]
-        #print('probdf:', probability.head())
 
-    feature_names_in = [ 'vgg11_bn',  'densenet121', 'mlp_1' ]
-    prob_feature_names_in = [ 'vgg11_bn_1', 'densenet121_1', 'mlp_1_1']
     # Linear Model Test
     with open(os.path.join(model_dir_discrete, '%s.pkl' % linear_model_name), 'rb') as handle:
         regressor = pickle.load(handle)
-    #results_discrete[linear_model_name] = pd.Series(abs(regressor.predict(prediction[regressor.feature_names_in_]).round()), index=prediction.index)
-    results_discrete[linear_model_name] = pd.Series(abs(regressor.predict(prediction[feature_names_in]).round()), index=prediction.index)
+    results_discrete[linear_model_name] = pd.Series(abs(regressor.predict(prediction[regressor.feature_names_in_]).round()), index=prediction.index)
 
     with open(os.path.join(model_dir_probs, '%s.pkl' % linear_model_name), 'rb') as handle:
         regressor = pickle.load(handle)
-    #results_probs[linear_model_name] = pd.Series(abs(regressor.predict(probability[regressor.feature_names_in_]).round()), index=probability.index)
-    results_probs[linear_model_name] = pd.Series(abs(regressor.predict(probability[prob_feature_names_in]).round()), index=probability.index)
-    
+    results_probs[linear_model_name] = pd.Series(abs(regressor.predict(probability[regressor.feature_names_in_]).round()), index=probability.index)
+
     # Ground Truth
     results_discrete["True"] = prediction['True']
     results_probs["True"] = probability['True']
+
     # Save Results
     results_discrete.to_excel(prediction_file, index=True)
     results_probs.to_excel(probability_file, index=True)
-    

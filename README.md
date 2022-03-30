@@ -1,89 +1,6 @@
-# AI4COVID Hackathon TEAM COSBI solution REPRODUCTION
+# Covid CXR Hackathon
 
-## Running reproduction
-
-### 0) 
-
-Installing necessary packages
-
-
-### 1) 
-`python3 clinical_data.py` 
-
-
-### 2)
-
-`python3 create_files.py`
-
-### 3) 
-
-`python3 segmentation_create_data.py` using weights provided from pretrained network
-
-### 4)
-
-`python3 segmentation_create_data.py` again with modified paths in configuration files for the submission set
-
-### 5)
-
-`python3 train_img.py`
-
-vgg11_bn and densenet121
-
-### 6)
-
-`python3 train_clinical.py`
-
-mlp_1
-
-### 7) 
-
-Predictions
-
-`python3 prediction_clinical.py`
-
-`python3 prediction_img.py`
-
-### 8)
-
-Training multimodal
-
-`train_linear_multimodal.py`
-
-### 8) 
-
-Predictions with multimodal
-
-`python3 prediction_linear_multimodal.py`
-
-### 9) 
-
-Predictions on submission set (need to modify configuration files to point to the submission set)
-
-`python3 prediction_clinical.py`
-
-`python3 prediction_img.py`
-
-`python3 prediction_linear_multimodal.py`
-
-
-## THEIR DESCRIPTION
-
-### Code
-
-- configs: configuration files
-- data: processed data
-- docs: documentation
-- models: available at the following [link](https://drive.google.com/drive/u/4/folders/1rlWGuLNGCiFg76TeNOXY2XskpF1h_mdE)
-- reports: results
-- src
-  - data: data preprocessing
-  - explainability: xai algorithms
-  - model: training and testing
-  - utils: utility functions
-- requirements.txt: dependencies
-
-
-### COSBI: Valerio Guarrasi, Paolo Soda
+## COSBI: Valerio Guarrasi, Paolo Soda
 
 Interpreting imaging findings is multimodal by its very nature, and hence, AI needs to be able to process together data coming from various modalities to get models best suited to solve the tasks at hand. The potential of deep-learning shown processing unimodal data has recently motivated the rise of multimodal deep-learning (MDL), which aims to treat multimodal data by using deep-network-based approaches. In the specific context of COVID-19 pandemic, MDL can support the patients' stratification mining together images and clinical information.
 The literature agrees that the three main open questions in MDL are how, when and which modalities must be joined to exploit the potential of each modality. Usually, MDL models are constructed by finding or combining the best model architecture for each modality which are then combined based on the nature of the data, on the task at hand and on the networks' structure by not obtaining necessarily the best ensemble. Therefore, we propose a novel joint fusion technique that automatically can find the optimal solution to which architectures must be combined, whatever the modality they belong to, maximizing the performance by also considering their diversity, exploring a novel locus of when the modalities are joint. To comprehend the validity of the proposed method, we applied it to the prognosis of the severity of COVID-19 positive patients exploiting both clinical and CXR scans, with the goal of improving the stratification of the disease.
@@ -112,3 +29,16 @@ To open the black-box nature of the joint model, we extract the weights coming o
 To enable physicians to explore and understand data-driven DL-based systems, we decided to work on XAI algorithms for single modalities. For each model composing the joint fusion, we can apply XAI algorithms which were realized for their specific modality. Considering only the clinical data we applied to MLP-1 the integrated gradients algorithm to show the features with their corresponding importance for a particular classification. Results of the clinical feature importance can be found at: xai/clinical.
 Going forward, we can use the relative aforementioned weights of the classification vector for a specific modality to combine the results coming from a XAI algorithm. In xai/img/densenet121 and xai/img/vgg11_bn we show the feature maps extracted from DenseNet121, VGG11-BN by applying Grad-CAM, and by combining them via weighted normalized sum we obtain a resulting map for the modality: xai/img/densenet121;vgg11_bn. In this way we understand how the different components working on the image modality, and as a whole, interpret the pixel values.
 
+### Code
+
+- configs: configuration files
+- data: processed data
+- docs: documentation
+- models: available at the following [link](https://drive.google.com/drive/u/4/folders/1rlWGuLNGCiFg76TeNOXY2XskpF1h_mdE)
+- reports: results
+- src
+  - data: data preprocessing
+  - explainability: xai algorithms
+  - model: training and testing
+  - utils: utility functions
+- requirements.txt: dependencies

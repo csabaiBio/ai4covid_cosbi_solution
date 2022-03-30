@@ -1,21 +1,19 @@
-# ADD HOME parent path
-HOME: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/
 seed: 0
 exp_name: img
 
 device:
-  cuda_device: cuda:0
-  gpu_num_workers: 4 #16
+  cuda_device: cuda:2
+  gpu_num_workers: 16
 
 data:
-  img_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/data/AIforCOVID/imgs
-  fold_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/data/processed/folds
+  img_dir: ../data/AIforCOVID
+  fold_dir: ./data/processed/folds
   mask_file:
   mask_dir:
-  box_file: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/data/processed/data.xlsx #data_test.xlsx
+  box_file: ./data/processed/data.xlsx #data_test.xlsx
   clahe: True
-  model_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/models
-  report_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/reports
+  model_dir: ./models
+  report_dir: ./reports
   classes:
     - MILD
     - SEVERE
@@ -24,36 +22,36 @@ data:
 
 model:
   model_list:
-    #- alexnet
-    #- vgg11
+    - alexnet
+    - vgg11
     - vgg11_bn
-    #- vgg13
-    #- vgg13_bn
-    #- vgg16
-    #- vgg16_bn
-    #- vgg19
-    #- vgg19_bn
-    #- resnet18
-    #- resnet34
-    #- resnet50
-    #- resnet101
-    #- resnet152
-    #- resnext50_32x4d
-    #- resnext101_32x8d
-    #- wide_resnet50_2
-    #- wide_resnet101_2
+    - vgg13
+    - vgg13_bn
+    - vgg16
+    - vgg16_bn
+    - vgg19
+    - vgg19_bn
+    - resnet18
+    - resnet34
+    - resnet50
+    - resnet101
+    - resnet152
+    - resnext50_32x4d
+    - resnext101_32x8d
+    - wide_resnet50_2
+    - wide_resnet101_2
     - densenet121
-    #- densenet169
-    #- densenet161
-    #- densenet201
-    #- googlenet
-    #- shufflenet_v2_x0_5
-    #- shufflenet_v2_x1_0
-    #- shufflenet_v2_x1_5
-    #- shufflenet_v2_x2_0
-    #- mobilenet_v2
-    #- mnasnet0_5
-    #- mnasnet1_0
+    - densenet169
+    - densenet161
+    - densenet201
+    - googlenet
+    - shufflenet_v2_x0_5
+    - shufflenet_v2_x1_0
+    - shufflenet_v2_x1_5
+    - shufflenet_v2_x2_0
+    - mobilenet_v2
+    - mnasnet0_5
+    - mnasnet1_0
   freeze: False
   pretrained: True
 
@@ -67,4 +65,4 @@ trainer:
   max_epochs: 300
 
 linear:
-  model_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/models/linear
+  model_dir: ./models/linear

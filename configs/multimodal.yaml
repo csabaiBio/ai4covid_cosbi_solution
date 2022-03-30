@@ -1,21 +1,18 @@
-# ADD HOME parent path
-HOME: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/
-
 seed: 0
 exp_name: multimodal
 
 mode_cfg:
-  mode_1: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/configs/img.yaml
-  mode_2: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/configs/clinical.yaml
+  mode_1: ./configs/img.yaml
+  mode_2: ./configs/clinical.yaml
 
 device:
-  cuda_device: cuda:0
+  cuda_device: cuda:2
   gpu_num_workers: 16
 
 data:
-  fold_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/data/processed/folds
-  model_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/models
-  report_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/reports
+  fold_dir: ./data/processed/folds
+  model_dir: ./models
+  report_dir: ./reports
   classes:
     - MILD
     - SEVERE
@@ -39,4 +36,4 @@ trainer:
   max_epochs: 300
 
 linear:
-  model_dir: /home/abiricz/ai4covid_winners/COVIDCXRChallenge/models/linear
+  model_dir: ./models/linear

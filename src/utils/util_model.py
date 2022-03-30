@@ -234,7 +234,6 @@ def train_model(model, criterion, optimizer, scheduler, model_name, data_loaders
             # Iterate over data
             with tqdm(total=len(data_loaders[phase].dataset), desc=f'Epoch {epoch + 1}/{num_epochs}', unit='img') as pbar:
                 for inputs, labels, file_names in data_loaders[phase]:
-                    # print('FFF', file_names)
                     inputs = inputs.to(device)
                     labels = labels.to(device)
 
