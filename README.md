@@ -2,7 +2,7 @@
 
 ## Running reproduction
 
-### 1)
+### 1) 
 `python3 clinical_data.py` 
 
 
@@ -12,7 +12,7 @@
 
 ### 3) 
 
-`python3 segmentation_create_data.py`
+`python3 segmentation_create_data.py` using weights provided from pretrained network
 
 ### 4)
 
@@ -30,19 +30,21 @@ vgg11_bn and densenet121
 
 mlp_1
 
-### 7)
-
-`train_linear_multimodal.py`
-
-### 8) Predictions
+### 7) Predictions
 
 `python3 prediction_clinical.py`
 
 `python3 prediction_img.py`
 
+### 8) Training multimodal
+
+`train_linear_multimodal.py`
+
+### 8) Predictions with multimodal
+
 `python3 prediction_linear_multimodal.py`
 
-### 9) Predictions on submission set: need to modify configuration files to point to the submission set
+### 9) Predictions on submission set (need to modify configuration files to point to the submission set)
 
 `python3 prediction_clinical.py`
 
