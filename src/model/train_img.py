@@ -1,11 +1,6 @@
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
-import os
-
-filepath = os.path.abspath(__file__)
-HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
-sys.path.append(HOME)
-
 sys.path.extend(["./"])
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -20,7 +15,7 @@ import src.utils.util_model as util_model
 
 # Configuration file
 args = util_general.get_args()
-args.cfg_file = HOME+"configs/img.yaml"
+args.cfg_file = "./configs/img.yaml"
 with open(os.path.join(args.cfg_file)) as file:
     cfg = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -59,19 +54,7 @@ results = collections.defaultdict(lambda: [])
 
 # Data Loaders
 fold_data = {step: pd.read_csv(os.path.join(cfg['data']['fold_dir'], '%s.txt' % step), delimiter=" ", index_col=0) for step in ['train', 'val', 'test']}
-#print('FOLD data', fold_data)
-datasets = {step: util_data.Dataset( 
-                    data=fold_data[step],
-                    classes=classes,
-                    img_dir=cfg['data']['img_dir'],
-                    mask_file=cfg['data']['mask_file'],
-                    mask_dir=cfg['data']['mask_dir'],
-                    box_file=cfg['data']['box_file'],
-                    clahe=cfg['data']['clahe'],
-                    step=step,
-                    img_dim=cfg['data']['img_dim'])
-             for step in ['train', 'val', 'test']}
-#print('DATASETS train', dir(datasets['train'].data) )
+datasets = {step: util_data.Dataset(data=fold_data[step], classes=classes, img_dir=cfg['data']['img_dir'], mask_file=cfg['data']['mask_file'], mask_dir=cfg['data']['mask_dir'], box_file=cfg['data']['box_file'], clahe=cfg['data']['clahe'], step=step, img_dim=cfg['data']['img_dim']) for step in ['train', 'val', 'test']}
 data_loaders = {'train': torch.utils.data.DataLoader(datasets['train'], batch_size=cfg['data']['batch_size'], shuffle=True, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
                 'val': torch.utils.data.DataLoader(datasets['val'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker),
                 'test': torch.utils.data.DataLoader(datasets['test'], batch_size=cfg['data']['batch_size'], shuffle=False, num_workers=num_workers, worker_init_fn=util_data.seed_worker)}

@@ -5,28 +5,19 @@ from keras.preprocessing.image import ImageDataGenerator
 from skimage import exposure, transform
 import skimage.measure as measure
 import os
-import sys
 from tqdm import tqdm
-
-filepath = os.path.abspath(__file__)
-HOME = '/'.join( filepath.split('/')[:-3] ) + '/'
-sys.path.append(HOME)
 
 import src.utils.util_segmentation as util_segmentation
 
-data_dir = HOME+"data/AIforCOVID"
-## UNCOMMENT TO RUN
-img_dirs = [os.path.join(data_dir, "imgs")] #imgs_test 
-#img_dirs = [os.path.join(data_dir, "imgs_test")] #imgs_test
 
+data_dir = "../data/AIforCOVID"
+img_dirs = [os.path.join(data_dir, "imgs")] #imgs_test
 
-## UNCOMMENT TO RUN
 clinical_data_files = [os.path.join(data_dir, "trainClinData.xls")] #testClinData.xls
-#clinical_data_files = [os.path.join(data_dir, "testClinData.xls")] #testClinData.xls
 y_label = "Prognosis"
 
 # Model path
-model_path = HOME+'models/segmentation/trained_model.hdf5'
+model_path = './models/segmentation/trained_model.hdf5'
 im_shape = (256, 256)
 
 # load clinical data
@@ -38,7 +29,7 @@ for clinical_data_file in clinical_data_files:
 UNet = load_model(model_path)
 
 # Bounding-box file
-bounding_box_file = os.path.join(HOME, "data/processed", "data.xlsx") # data_test.xlsx
+bounding_box_file = os.path.join("./data/processed", "data.xlsx") # data_test.xlsx
 
 # Load test data
 X, original_shape, img_name = util_segmentation.loadData(img_dirs, im_shape)
